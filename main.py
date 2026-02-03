@@ -87,10 +87,10 @@ def main():
     )
 
     if df_follows.empty:
-        raise RuntimeError("Follows/unfollows veio vazio. Abortando para evitar carga ruim.")
-
-    print("Preview follows/unfollows:")
-    print(df_follows.head())
+        print("ℹ️ Follows/unfollows veio vazio para ontem. Pulando essa carga.")
+    else:
+        print("Preview follows/unfollows:")
+        print(df_follows.head())
 
     load_to_bigquery(
         df=df_follows,
@@ -99,6 +99,7 @@ def main():
         table="fact_instagram_follows_unfollows_day",
     )
     print("Follows & unfollows enviados com sucesso para o BigQuery!")
+
 
     # 4) Followers snapshot
     df_followers = collect_followers_snapshot_daily(
