@@ -1,0 +1,101 @@
+city,followers,reached,engaged
+"Rio Branco, Acre (state)",0,28,0
+"Aparecida de Goiânia, Goiás",0,32,0
+"São Luís, Maranhão",0,76,0
+"Nova Iguaçu, Rio de Janeiro (state)",0,44,0
+"Guarulhos, São Paulo (state)",0,31,0
+"Anápolis, Goiás",0,36,0
+"Olinda, Pernambuco",0,46,0
+"Jaboatão dos Guararapes, Pernambuco",0,64,0
+"Duque de Caxias, Rio de Janeiro (state)",0,37,0
+"Recife, Pernambuco",0,160,0
+"Petrolina, Pernambuco",0,53,0
+"Vitória da Conquista, Bahia",0,34,0
+"Caruaru, Pernambuco",0,63,0
+"Feira de Santana, Bahia",0,64,0
+"Santa Cruz do Capibaribe, Pernambuco",0,41,0
+"Teresina, Piauí",0,66,0
+"Maceió, Alagoas",0,112,0
+"Aracaju, Sergipe",0,74,0
+"Parauapebas, Pará",0,29,0
+"Mossoró, Rio Grande do Norte",0,53,0
+"Juazeiro do Norte, Ceará",0,31,0
+"Pelotas, Rio Grande do Sul",0,28,0
+"Paulista, Pernambuco",0,40,0
+"São Gonçalo, Rio de Janeiro (state)",0,32,0
+"Goiânia, Goiás",0,93,0
+"Manaus, Amazonas",0,58,0
+"Palmas, Tocantins",0,31,0
+"Cabo de Santo Agostinho, Pernambuco",0,37,0
+"Seabra, Bahia",0,0,1
+"Bury, São Paulo (state)",0,0,1
+"Natal, Rio Grande do Norte",0,109,1
+"Amarantina, Minas Gerais",0,0,1
+"Maravilha, Santa Catarina",0,0,1
+"Salto de Pirapora, São Paulo (state)",0,0,1
+"São Domingos do Prata, Minas Gerais",0,0,1
+"Passo Fundo, Rio Grande do Sul",0,0,1
+"Balneário Gaivota, Santa Catarina",0,0,1
+"Núcleo Bandeirante, Federal District",0,0,1
+"Salto, São Paulo (state)",0,0,1
+"Rondonópolis, Mato Grosso",0,0,1
+"Itapecuru-Mirim, Maranhão",0,0,1
+"Cuiabá, Mato Grosso",0,0,1
+"Concórdia, Santa Catarina",0,0,1
+"Campo Grande, Mato Grosso do Sul",0,50,1
+"Belém, Pará",0,59,1
+"Ribeirão Prêto, São Paulo (state)",0,0,1
+"Camboriú, Santa Catarina",0,0,1
+"Itanhaém, São Paulo (state)",0,0,1
+"Caldas Novas, Goiás",0,0,1
+"Caxias do Sul, Rio Grande do Sul",0,0,1
+"Santo Antônio do Sudoeste, Paraná",0,0,1
+"Ouro Verde, Paraná",0,0,2
+"Dois Vizinhos, Paraná",0,0,2
+"Campina Grande, Paraíba",0,74,2
+"Imperatriz, Maranhão",0,0,2
+"Corbélia, Paraná",7,0,0
+"Campo Mourão, Paraná",7,0,0
+"Pontal do Paraná, Paraná",7,0,0
+"Balneário Camboriú, Santa Catarina",8,0,0
+"Céu Azul, Paraná",8,0,0
+"São José das Palmeiras, Paraná",8,0,0
+"João Pessoa, Paraíba",8,86,1
+"Jesuítas, Paraná",9,0,0
+"Nova Maripá, Paraná",9,0,0
+"Campinas, São Paulo (state)",9,33,1
+"Belo Horizonte, Minas Gerais",9,81,2
+"Joinville, Santa Catarina",9,0,2
+"São José, Santa Catarina",10,0,0
+"Formosa do Oeste, Paraná",10,0,0
+"Nova Aurora, Paraná",10,0,0
+"Vera Cruz do Oeste, Paraná",10,0,1
+"Salvador, Bahia",11,153,0
+"São Pedro do Iguaçu, Paraná",11,0,0
+"Uberlândia, Minas Gerais",11,29,0
+"Quatro Pontes, Paraná",12,0,0
+"Santo André, São Paulo (state)",12,0,2
+"Chapecó, Santa Catarina",12,0,2
+"Tupassi, Paraná",13,0,0
+"Santa Elena, Paraná",13,0,0
+"Fortaleza, Ceará",15,158,2
+"Londrina, Paraná",17,0,0
+"Umuarama, Paraná",18,0,0
+"Medianeira, Paraná",18,0,3
+"Santa Tereza do Oeste, Paraná",19,0,0
+"Ouro Verde do Oeste, Paraná",19,0,0
+"Nova Santa Rosa, Paraná",21,0,0
+"Porto Alegre, Rio Grande do Sul",21,55,0
+"Novo Sarandi, Paraná",27,0,0
+"Rio de Janeiro, Rio de Janeiro (state)",27,174,5
+"Guaíra, Paraná",28,0,0
+"Maringá, Paraná",28,0,1
+"Florianópolis, Santa Catarina",31,0,0
+"Foz do Iguaçu, Paraná",36,0,0
+"Palotina, Paraná",57,0,1
+"Assis Chateaubriand, Paraná",58,0,2
+"Curitiba, Paraná",92,82,1
+"São Paulo, São Paulo (state)",103,254,5
+"Marechal Cândido Rondon, Paraná",150,54,3
+"Cascavel, Paraná",706,160,15
+"Toledo, Paraná",3139,1391,161

@@ -1,0 +1,42 @@
+# ambiente virtual
+.venv/
+
+# python
+__pycache__/
+*.pyc
+
+# variáveis de ambiente
+.env
+
+# VS Code
+.vscode/
+
+# arquivos temporários
+*.log
+
+# documentos
+*.docx
+# Credentials (GCP)
+gcp_key.json
+cannele-marketing-8fdd46cd8922.json
+*-key.json
+*-credentials.json
+
+# Test functions
+backfill_follows_unfollows_12m.py
+export_last_30_days_csv.py
+test_env.py
+
+# Power BI
+*.pbix
+
+# datasets
+*.csv
+
+# OS
+.DS_Store
+Thumbs.db
+
+clusterization\exp_cluster_age
+clusterization\exp_cluster_city
+clusterization\exp_cluster_gender
