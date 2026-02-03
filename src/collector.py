@@ -42,13 +42,13 @@ DEFAULT_MEDIA_PRODUCT_METRICS = [
     "views",
     "total_interactions",
 ]
-
 def collect_day_media_product(
     since: Optional[int],
     until: Optional[int],
     page_token: str,
     metrics: Optional[List[str]] = None,
     extracted_at: Optional[str] = None,  # ISO string
+    tz_name: str = "America/Sao_Paulo",
 ) -> pd.DataFrame:
     """
     Coleta métricas diárias (period=day) agregadas por media_product_type
@@ -58,12 +58,18 @@ def collect_day_media_product(
     reach, likes, shares, comments, saves, views, total_interactions
     """
 
-    tz = ZoneInfo("America/Sao_Paulo")
+    tz = ZoneInfo(tz_name)
+
     if extracted_at is None:
         extracted_at = datetime.now(tz).isoformat()
 
-    metrics_to_collect = metrics or DEFAULT_MEDIA_PRODUCT_METRICS
+    # definição correta e consistente do metric_date
+    if since is not None:
+        metric_date = datetime.fromtimestamp(since, tz=tz).date().isoformat()
+    else:
+        metric_date = (datetime.now(tz).date() - timedelta(days=1)).isoformat()
 
+    metrics_to_collect = metrics or DEFAULT_MEDIA_PRODUCT_METRICS
     rows = []
 
     for metric in metrics_to_collect:
@@ -76,6 +82,7 @@ def collect_day_media_product(
 
         for r in data:
             rows.append({
+                "metric_date": metric_date,                      
                 "metric": metric,
                 "period": "day",
                 "metric_type": "total_value",
@@ -83,17 +90,26 @@ def collect_day_media_product(
                 "extracted_at": extracted_at,
                 "since": since,
                 "until": until,
-                "dimension_value": r.get("media_product_type"),  # ex: POST, REEL, STORY, AD...
+                "dimension_value": r.get("media_product_type"),  # AD / POST / REEL / STORY
                 "value": r.get("value"),
             })
 
     return pd.DataFrame(rows)
+
 
 DEFAULT_TIME_SERIES_METRICS = [
     "reach",
     # currently this is the only time serie metric availabe
 
 ]
+
+
+def _day_window_ts(d: date, tz_name: str = "America/Sao_Paulo") -> tuple[int, int]:
+    tz = ZoneInfo(tz_name)
+    since_dt = datetime.combine(d, time(0, 0, 0), tzinfo=tz)
+    until_dt = since_dt + timedelta(days=1)
+    return int(since_dt.timestamp()), int(until_dt.timestamp())
+
 
 def collect_time_series_last_n_days(
     n_days: int,
@@ -144,12 +160,6 @@ def collect_time_series_last_n_days(
     df = df[["metric", "metric_date", "end_time", "value", "since", "until", "extracted_at"]].sort_values(["metric", "metric_date"])
     return df
 
-
-def _day_window_ts(d: date, tz_name: str = "America/Sao_Paulo") -> tuple[int, int]:
-    tz = ZoneInfo(tz_name)
-    since_dt = datetime.combine(d, time(0, 0, 0), tzinfo=tz)
-    until_dt = since_dt + timedelta(days=1)
-    return int(since_dt.timestamp()), int(until_dt.timestamp())
 
 
 def collect_follows_unfollows_yesterday(
