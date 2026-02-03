@@ -4,6 +4,8 @@ from src.collector import (
     collect_demographics,
     collect_day_media_product,
     collect_follows_unfollows_yesterday,
+    collect_followers_snapshot_daily, 
+    collect_ads_spend_yesterday
 )
 from src.loaders.bigquery_loader import load_to_bigquery
 
@@ -97,6 +99,46 @@ def main():
         table="fact_instagram_follows_unfollows_day",
     )
     print("Follows & unfollows enviados com sucesso para o BigQuery!")
+
+    # 4) Followers snapshot
+    df_followers = collect_followers_snapshot_daily(
+        extracted_at=extracted_at,
+        tz_name="America/Sao_Paulo",
+    )
+
+    if df_followers.empty:
+        raise RuntimeError("Followers snapshot veio vazio. Abortando para evitar carga ruim.")
+
+    print("Preview followers snapshot:")
+    print(df_followers.head())
+
+    load_to_bigquery(
+        df=df_followers,
+        project_id="cannele-marketing",
+        dataset="marketing",
+        table="fact_instagram_account_daily",
+    )
+    print("Followers snapshot enviado com sucesso para o BigQuery!")
+
+    #5 Métricas para ads
+    df_ads = collect_ads_spend_yesterday(
+        extracted_at=extracted_at,
+        tz_name="America/Los_Angeles",  # consistente com a ad account
+    )
+
+    if df_ads.empty:
+        print("ℹ️ Ads: sem dados para ontem (sem delivery/gasto). Pulando carga de Ads.")
+    else:
+        print("Preview ads spend:")
+        print(df_ads.head())
+
+        load_to_bigquery(
+            df=df_ads,
+            project_id="cannele-marketing",
+            dataset="marketing",
+            table="fact_ads_daily",
+        )
+        print("Ads spend enviado com sucesso para o BigQuery!")
 
     print("✅ Pipeline finalizado com sucesso!")
 

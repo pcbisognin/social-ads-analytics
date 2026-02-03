@@ -24,13 +24,18 @@ jobs:
           pip install -r requirements.txt
 
       - name: Set up GCP credentials
+        shell: bash
         run: |
-          echo '${{ secrets.GCP_SA_KEY }}' > gcp_key.json
+          cat << 'EOF' > gcp_key.json
+          ${{ secrets.GCP_SA_KEY }}
+          EOF
           echo "GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcp_key.json" >> $GITHUB_ENV
 
       - name: Run Instagram pipeline
         env:
           META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          META_AD_ACCOUNT_ID: ${{ secrets.META_AD_ACCOUNT_ID }}
+          PAGE_ACCESS_TOKEN: ${{ secrets.PAGE_ACCESS_TOKEN }}
         run: |
           python main.py

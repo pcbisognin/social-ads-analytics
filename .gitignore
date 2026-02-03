@@ -18,7 +18,7 @@ __pycache__/
 *.docx
 # Credentials (GCP)
 gcp_key.json
-cannele-marketing-8fdd46cd8922.json
+
 *-key.json
 *-credentials.json
 

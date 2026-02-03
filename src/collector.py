@@ -1,7 +1,9 @@
 from itertools import product
 import pandas as pd
+import os
 from typing import List, Dict, Any, Optional
-from src.meta_client import get_demo, get_day_totals_by_media_product, get_time_series, get_follows_and_unfollows_by_day
+from src.meta_client import (get_demo, get_day_totals_by_media_product, get_time_series, 
+get_follows_and_unfollows_by_day, get_followers_count, get_ad_account_info, get_ads_insights_daily)
 from datetime import datetime, date, time, timedelta
 from zoneinfo import ZoneInfo
 
@@ -187,3 +189,85 @@ def collect_follows_unfollows_yesterday(
     return pd.DataFrame(rows).reindex(columns=[
         "metric_date", "metric", "follow_type", "value", "since", "until", "extracted_at"
     ])
+
+def collect_followers_snapshot_daily(
+    extracted_at=None,  # pd.Timestamp utc recomendado
+    tz_name: str = "America/Sao_Paulo",
+) -> pd.DataFrame:
+    """
+    Snapshot diário do total de seguidores (followers_count).
+    Grão: 1 linha por dia.
+    """
+    tz = ZoneInfo(tz_name)
+    if extracted_at is None:
+        extracted_at = pd.Timestamp.utcnow()
+
+    # data do snapshot no timezone desejado (para BI)
+    metric_date = datetime.now(tz).date().isoformat()
+
+    followers = get_followers_count()
+
+    return pd.DataFrame([{
+        "metric_date": metric_date,
+        "ig_user_id": str(os.getenv("IG_USER_ID")),  # ou importe IG_USER_ID do meta_client se preferir
+        "followers_count": int(followers),
+        "extracted_at": extracted_at,
+    }])
+
+def collect_ads_spend_yesterday(
+    extracted_at=None,  # pd.Timestamp utc recomendado
+    tz_name: str = "America/Los_Angeles",  # usa o timezone da ad account (pelo seu print)
+) -> pd.DataFrame:
+    """
+    Coleta Ads Insights para ONTEM (spend diário).
+    Grão: 1 linha por dia (no level=account), com spend + métricas básicas.
+    """
+    if extracted_at is None:
+        extracted_at = pd.Timestamp.utcnow()
+
+    ad_account_id = os.getenv("META_AD_ACCOUNT_ID")
+    if not ad_account_id:
+        raise ValueError("Faltou META_AD_ACCOUNT_ID nos env/secrets.")
+
+    tz = ZoneInfo(tz_name)
+    today = datetime.now(tz).date()
+    yesterday = today - timedelta(days=1)
+
+    # intervalo seguro: [yesterday, today)
+    since = yesterday.isoformat()
+    until = today.isoformat()
+
+    # pegar info da conta (currency/timezone) pra guardar junto (opcional mas útil)
+    info = get_ad_account_info(ad_account_id=ad_account_id)
+
+    data = get_ads_insights_daily(
+        since=since,
+        until=until,
+        level="account",
+        fields=["date_start", "date_stop", "spend", "impressions", "clicks"],
+        ad_account_id=ad_account_id,
+    )
+
+    if not data:
+        # Sem delivery/gasto ontem -> DF vazio (pipeline deve continuar)
+        return pd.DataFrame(columns=[
+            "metric_date", "ad_account_id", "level", "currency", "timezone_name",
+            "spend", "impressions", "clicks", "extracted_at"
+        ])
+
+    rows = []
+    for r in data:
+        rows.append({
+            "metric_date": r.get("date_start"),           # YYYY-MM-DD
+            "ad_account_id": ad_account_id,
+            "level": "account",
+            "currency": info.get("currency"),
+            "timezone_name": info.get("timezone_name"),
+            "spend": float(r.get("spend") or 0),
+            "impressions": int(r.get("impressions") or 0),
+            "clicks": int(r.get("clicks") or 0),
+            "extracted_at": extracted_at,
+        })
+
+    return pd.DataFrame(rows)
+
