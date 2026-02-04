@@ -87,17 +87,17 @@ def main():
     )
 
     if df_follows.empty:
-        print("ℹ️ Follows/unfollows veio vazio para ontem. Pulando essa carga.")
+        print("⚠️ Follows/unfollows veio vazio (inesperado). Pulando essa carga.")
     else:
         print("Preview follows/unfollows:")
         print(df_follows.head())
 
-    load_to_bigquery(
-        df=df_follows,
-        project_id="cannele-marketing",
-        dataset="marketing",
-        table="fact_instagram_follows_unfollows_day",
-    )
+        load_to_bigquery(
+            df=df_follows,
+            project_id="cannele-marketing",
+            dataset="marketing",
+            table="fact_instagram_follows_unfollows_day",
+        )
     print("Follows & unfollows enviados com sucesso para o BigQuery!")
 
 

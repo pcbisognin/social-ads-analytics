@@ -184,6 +184,13 @@ def collect_follows_unfollows_yesterday(
         page_token=page_token,
     )
 
+    # Se não houver eventos no dia, grava zeros para manter série contínua
+    if not data:
+        data = [
+            {"follow_type": "FOLLOWER", "value": 0},
+            {"follow_type": "NON_FOLLOWER", "value": 0},
+        ]
+
     rows: List[Dict[str, Any]] = []
     for r in data:
         rows.append({
